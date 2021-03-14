@@ -1,0 +1,42 @@
+.admin {
+  position: relative;
+  left: 200px;
+  /* width: calc(100%-400px); */
+  /* height: 849px; */
+  /* margin: 0 auto; */
+}
+
+.carousel {
+  width: 40%;
+  /* height: 200px; */
+  margin: 25px auto;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.home-img img {
+  height: 200px;
+  width: 100%;
+  /* max-height: auto;
+  max-width: 100%; */
+}
+
+.content-area {
+  margin: 0 auto;
+  /* height: 540px; */
+}
+.ant-row {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.content-image {
+  height: 170px;
+  /* background-color: #bfa; */
+  border-radius: 8px;
+}
+
+.content-image div {
+  color: #b1b1b1;
+  overflow: hidden;
+}

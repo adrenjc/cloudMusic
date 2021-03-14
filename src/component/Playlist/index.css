@@ -1,0 +1,118 @@
+.playlist {
+  position: relative;
+  left: 200px;
+  width: 1098px;
+  height: 849px;
+  margin: 0;
+  /* background-color: red; */
+}
+
+.playlist-header {
+  height: 215px;
+  width: 1098px;
+  /* background-color: #bfa; */
+}
+
+.playlist-header-img {
+  height: 200px;
+  width: 200px;
+  position: relative;
+  /* background-color: #fff; */
+  border-radius: 8px;
+  top: 15px;
+  left: 30px;
+  overflow: hidden;
+}
+
+.playlist-header-username {
+  position: relative;
+  bottom: 185px;
+  left: 260px;
+  font-size: 22px;
+  color: #b3b3b3;
+  font-weight: 700;
+}
+
+.playlist-header-userimg {
+  position: relative;
+  height: 30px;
+  width: 30px;
+  background-color: black;
+  border-radius: 50%;
+  bottom: 175px;
+  left: 260px;
+  overflow: hidden;
+}
+
+.playlist-header-userid {
+  position: relative;
+  left: 300px;
+  width: fit-content;
+  bottom: 201px;
+  display: flex;
+  align-items: center;
+  color: #6d94b6;
+}
+.playlist-header-creattime {
+  width: fit-content;
+  color: #878787;
+  font-size: 13px;
+  margin-left: 24px;
+}
+
+.playlist-header-button {
+  position: relative;
+  /* background-color: black; */
+  bottom: 180px;
+  left: 260px;
+}
+
+.playlist-header-data {
+  position: relative;
+  bottom: 165px;
+  left: 260px;
+  color: #b3b3b3;
+  font-size: 10px;
+}
+
+.playlist-header-data span {
+  color: #878787;
+}
+
+.playlist-content {
+  position: relative;
+  margin-top: 40px;
+  /* background-color: red; */
+  height: 634px;
+  overflow: auto;
+}
+
+/* .content-title::selection {
+  color: #7d2525 !important;
+} */
+
+.ant-menu-item-selected {
+  color: #b82525 !important;
+  border-bottom: 2px solid #b82525 !important;
+}
+
+.ant-table-thead > tr > th {
+  color: #b3b3b3 !important;
+  background: #252525 !important;
+  border-color: #252525 !important;
+}
+
+.ant-table.ant-table-small .ant-table-tbody > tr > td {
+  color: #b3b3b3 !important;
+  background: #292929 !important;
+  border-color: #292929 !important;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover {
+  color: #b82525 !important;
+  border-bottom: 2px solid #b82525 !important;
+}
+
+.ant-empty-description {
+  color: #b82525 !important;
+}

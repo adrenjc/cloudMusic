@@ -1,0 +1,68 @@
+.side-nav {
+  width: 200px;
+  height: 100vh;
+  background-color: #202020;
+  position: absolute;
+  border-radius: 5px;
+  overflow: auto;
+}
+.side-user {
+  display: flex;
+  width: 200px;
+  height: 60px;
+  align-items: center;
+}
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-image: url(./user.png);
+  background-size: 100% 100%;
+  margin-left: 12px;
+}
+.user {
+  color: #b1b1b1;
+  font-size: 14px;
+  margin-left: 12px;
+}
+
+.side-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.side-page a {
+  text-decoration: none;
+  color: #a7a7a7;
+  padding: 12px;
+  font-size: 20px;
+}
+
+.side-page a span {
+  font-size: 12px;
+  position: relative;
+  bottom: 4px;
+  padding-left: 8px;
+}
+
+/* .icon {
+  position: relative;
+  top: 2px;
+  right: 18px;
+} */
+
+/* .text {
+  position: relative;
+  right: 13px;
+} */
+
+.abc {
+  padding-left: 28px !important;
+}
+
+.text {
+  position: relative;
+  left: 8px;
+}

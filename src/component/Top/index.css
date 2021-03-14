@@ -1,0 +1,50 @@
+.all-app {
+  border: 1px solid #232323;
+  height: 100vh;
+  background-color: #252525;
+  border-radius: 5px;
+  /* overflow: hidden; */
+}
+
+.top {
+  height: 49px;
+  background-color: #2d2d2d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-nav a {
+  text-decoration: none;
+  color: #606060;
+  padding: 0 15px;
+  font-size: 14px;
+}
+
+.top-nav a:hover {
+  color: #ffffff;
+}
+
+.top-nav:first-child {
+  margin-left: 160px;
+}
+
+.top-input {
+  outline-style: none;
+  border-radius: 15px;
+  background-color: #4b4b4b;
+  padding: 3px 5px;
+  width: 130px;
+  position: relative;
+  top: 1px;
+  font-size: 14px;
+}
+
+.top-right a {
+  text-decoration: none;
+  color: #505050;
+  font-size: 18px;
+  padding: 0 14px;
+  position: relative;
+  top: 3px;
+}
