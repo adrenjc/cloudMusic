@@ -14,7 +14,7 @@
   align-items: center;
 }
 
-.top-nav a {
+.top-nav .nav {
   text-decoration: none;
   color: #606060;
   padding: 0 15px;
@@ -34,6 +34,7 @@
   border-radius: 15px;
   background-color: #4b4b4b;
   padding: 3px 5px;
+  margin-right: 10px;
   width: 130px;
   position: relative;
   top: 1px;

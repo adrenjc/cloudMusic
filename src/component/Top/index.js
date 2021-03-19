@@ -3,8 +3,10 @@ import './index.css';
 import './icon.css';
 import Side from '../Sidenav/index';
 import Home from '../Home/index';
+import Audio from '../Audio/index';
 import PlayList from '../Playlist/index';
 import { Redirect, Route } from 'react-router';
+import { Link } from "react-router-dom";
 // import storageUtils from '../../utils/storageUtils';
 
 export default class Top extends Component {
@@ -21,12 +23,21 @@ export default class Top extends Component {
         <div className="all-app">
           <div className="top">
             <div className="top-nav">
-              <a href=".top">个性推荐</a>
+              <Link to="/App/home" className="nav">
+                个性推荐
+              </Link>
+              <Link to="/App/home" className="nav">
+                歌单
+              </Link>
+              <Link to="/App/home" className="nav">
+                最新音乐
+              </Link>
+              {/* <a href=".top">个性推荐</a>
               <a href=".top">歌单</a>
               <a href=".top">主播电台</a>
               <a href=".top">排行榜</a>
               <a href=".top">歌手</a>
-              <a href=".top">最新音乐</a>
+              <a href=".top">最新音乐</a> */}
             </div>
             <div className="top-right">
               <input
@@ -34,7 +45,7 @@ export default class Top extends Component {
                 placeholder="&#xe623;&nbsp;搜索"
                 className="top-input iconfont"
               ></input>
-              <a href=".top" className="iconfont ">
+              {/* <a href=".top" className="iconfont ">
                 &#xe8b7;
               </a>
               <a href=".top" className="iconfont ">
@@ -45,13 +56,14 @@ export default class Top extends Component {
               </a>
               <a href=".top" className="iconfont">
                 &#xe8b0;
-              </a>
+              </a> */}
             </div>
           </div>
           <Side></Side>
           <Route path="/App/home" component={Home}></Route>
           <Route path="/App/playlist/:id" component={PlayList}></Route>
           <Redirect to="/App/home"></Redirect>
+          <Audio></Audio>
         </div>
       </div>
     );

@@ -23,6 +23,7 @@ export function getPlaylistData(id) {
   return ajax(URL + '/playlist/detail', { id }, 'GET');
 }
 
+//获取歌曲详情
 export function getSongname(ids) {
   return ajax(URL + '/song/detail', { ids }, 'GET');
 }

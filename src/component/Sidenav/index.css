@@ -1,6 +1,6 @@
 .side-nav {
   width: 200px;
-  height: 100vh;
+  height: calc(100vh - 110px);
   background-color: #202020;
   position: absolute;
   border-radius: 5px;
@@ -42,27 +42,8 @@
 
 .side-page a span {
   font-size: 12px;
-  position: relative;
-  bottom: 4px;
-  padding-left: 8px;
 }
 
-/* .icon {
-  position: relative;
-  top: 2px;
-  right: 18px;
-} */
-
-/* .text {
-  position: relative;
-  right: 13px;
-} */
-
-.abc {
-  padding-left: 28px !important;
-}
-
-.text {
-  position: relative;
-  left: 8px;
+.playlist {
+  padding-left: 15px !important;
 }
