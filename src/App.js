@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Top from './component/Top/index';
+import Top from './component/All/index';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import NormalLoginForm from './login/index.js';
 

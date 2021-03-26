@@ -7,15 +7,18 @@
 }
 
 .carousel {
-  width: 500px;
-  /* height: calc(100vw - 1300px); */
+  width: 50%;
+  /* height: 30vh; */
   margin: 15px auto;
   border-radius: 10px;
   overflow: hidden;
 }
 
 .home-img img {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
 }
 
 .content-area {
@@ -36,8 +39,6 @@
   color: #b1b1b1;
   overflow: hidden;
 }
-
-
 
 .home-loding {
   display: flex;

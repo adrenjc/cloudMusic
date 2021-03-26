@@ -1,0 +1,141 @@
+.sidelist {
+  /* display: none; */
+  width: 30%;
+  height: calc(100% - 109px);
+  top: 50px;
+  right: 0;
+  background-color: #363636;
+  position: absolute;
+}
+
+.sidelist-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  position: relative;
+  top: 20px;
+  width: 70%;
+  height: 35px;
+  border-radius: 20px;
+  background-color: #363636;
+  border: 1px solid #636363;
+}
+
+.sidelist-list {
+  height: 35px;
+  width: 50%;
+  text-align: center;
+  line-height: 35px;
+  color: #636363;
+}
+
+.sidelist-history {
+  /* padding: 9px 20px; */
+  height: 35px;
+  width: 50%;
+  text-align: center;
+  line-height: 35px;
+  color: #636363;
+}
+
+.true {
+  background-color: #666666;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.sidelist-subtitle {
+  display: flex;
+  top: 50px;
+  position: relative;
+  justify-content: space-between;
+  margin: 12px 24px;
+}
+
+.subtitle {
+  color: #5e5e5e;
+  font-size: 12px;
+}
+
+.delete {
+  font-size: 16px;
+  color: #b9b9b9;
+}
+
+.title-flex {
+  display: flex;
+  position: relative;
+  top: 45px;
+}
+
+.title-flex::before,
+.title-flex::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  width: 80%;
+  background: #404040;
+}
+
+.sidelist-song {
+  height: calc(100% - 129px);
+  position: relative;
+  top: 45px;
+  overflow: auto;
+}
+
+.sidelist-song table {
+  width: 100%;
+
+  border-collapse: collapse;
+  /* margin: 0 auto; */
+  /* text-align: center; */
+}
+.sidelist-song td {
+  color: #bababa;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 35px;
+  -webkit-box-orient: vertical; /*子代元素垂直显示*/
+}
+
+.sidelist-song tr:hover {
+  background-color: #3e3e3e;
+}
+.sidelist-song tr > td:hover {
+  color: #fff;
+}
+
+.sidelist-songname {
+  width: 50%;
+  height: 35px;
+  padding-left: 24px;
+  user-select: none; /* Chrome/Safari/Opera */
+}
+
+.sidelist-singer {
+  width: 38%;
+  user-select: none; /* Chrome/Safari/Opera */
+}
+
+.sidelist-songtime {
+  width: 12%;
+  padding-right: 24px;
+}
+
+table tr:nth-child(odd) {
+  background: #363636;
+}
+
+table tr:nth-child(even) {
+  background: #3a3a3a;
+}
+
+.active-list {
+  color: #d33a31 !important;
+  user-select: none; /* Chrome/Safari/Opera */
+}

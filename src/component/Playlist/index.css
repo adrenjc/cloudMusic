@@ -130,10 +130,6 @@
   border-bottom: 2px solid #b82525 !important;
 }
 
-.ant-empty-description {
-  color: #b82525 !important;
-}
-
 .ant-table-tbody
   > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
   > td {

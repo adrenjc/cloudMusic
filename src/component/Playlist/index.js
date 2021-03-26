@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import ReactDom from 'react-dom';
-import { getPlaylistData, getSongname } from '../../api/index';
+import { getPlaylistData, getSongname, getSongURL } from '../../api/index';
 import { Button, Menu, Table, Image, Spin } from 'antd';
 import {
   CaretRightOutlined,
@@ -11,8 +11,12 @@ import {
 import './index.css';
 import PubSub from 'pubsub-js';
 import './index.less';
+import moment from 'moment';
+import { getList } from '../../redux/action/Playlist_action';
+import { setAudioUrl } from '../../redux/action/Audio_action';
+import { connect } from 'react-redux';
 
-export default class PlayList extends Component {
+class PlayList extends Component {
   componentDidMount() {
     this.init();
   }
@@ -23,13 +27,14 @@ export default class PlayList extends Component {
         params: { id = {} },
       },
     } = props;
+
     if (this.props.match.params.id !== id) {
       const { id } = this.props.match.params;
       this.init2(id);
     }
   }
 
-  //放着内存泄漏
+  //防止内存泄漏
   componentWillUnmount() {
     this.setState = () => false;
   }
@@ -60,7 +65,6 @@ export default class PlayList extends Component {
     await this.setState({ isLoding: true });
     const value = await getPlaylistData(data);
     const result = value && value.data.playlist;
-
     //收集歌单所有歌曲详情
 
     const values = result && result.trackIds;
@@ -74,6 +78,7 @@ export default class PlayList extends Component {
     //将当前歌单所有歌曲id传递到Audio组件
 
     //更新歌单
+
     this.getSongname(e);
 
     this.setState({ result, info, isLoding: false });
@@ -89,14 +94,16 @@ export default class PlayList extends Component {
     const result = songs;
 
     let song = result.map((items) => {
-      const { al, ar, id, name } = items;
+      const { al, ar, id, name, dt } = items;
+      //使用moment插件转换歌曲时长
+      const duration = moment(dt).format('mm:ss');
       return {
         key: id,
         name,
         singer: ar[0].name,
         album: al.name,
         songimg: al.picUrl,
-        isLoding: false,
+        duration,
       };
     });
     this.setState({ song, isLoding: false });
@@ -132,18 +139,28 @@ export default class PlayList extends Component {
   onClickRow = (items) => {
     return {
       onDoubleClick: (event) => {
+        const { song, info } = this.state;
+
+        this.getSongUrl(items.key);
+
         PubSub.publish('songID', items);
-        // console.log(this.state.info);
-        PubSub.publish('songAllId', this.state.info);
+        PubSub.publish('songAllId', info);
+        const { getList } = this.props;
+        getList(song);
       },
     };
   };
 
-  // setSelectHrpFactRowClassName = (record) => {
-  //   return record.id === this.state.hrpFactSelectedRowData.id
-  //     ? global.clickRowStyl
-  //     : '';
-  // };
+  getSongUrl = async (key) => {
+    const value = await getSongURL(key);
+    const {
+      data: { data = {} },
+    } = value;
+    const { setAudioUrl } = this.props;
+    setAudioUrl(data);
+    const audio = document.getElementById('audio');
+    audio.play();
+  };
 
   //给每行上类名设定每行不同的颜色
   getRowClassName = (record, index) => {
@@ -177,7 +194,7 @@ export default class PlayList extends Component {
         title: '歌名',
         dataIndex: 'name',
         key: 'name',
-        width: '45%',
+        width: '40%',
         ellipsis: true,
       },
       {
@@ -188,11 +205,18 @@ export default class PlayList extends Component {
         width: '25%',
       },
       {
-        width: '30%',
+        width: '25%',
         title: '专辑',
         dataIndex: 'album',
         key: 'album',
 
+        ellipsis: true,
+      },
+      {
+        width: '10%',
+        title: '时长',
+        dataIndex: 'duration',
+        key: 'duration',
         ellipsis: true,
       },
     ];
@@ -314,3 +338,8 @@ export default class PlayList extends Component {
     );
   }
 }
+
+export default connect(null, {
+  getList,
+  setAudioUrl,
+})(PlayList);
