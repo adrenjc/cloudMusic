@@ -1,7 +1,10 @@
 import ajax from './ajax';
 
 // const url = 'https://adrenjc-cloud-music-api.vercel.app';
-const URL = 'http://localhost:4000';
+// const URL = 'http://localhost:4000';
+// const URL = 'https://adrenjc-cloud-music-api.vercel.app';
+const URL = '';
+
 export function reqLogin(phone, password, timestamp) {
   return ajax(URL + '/login/cellphone', { phone, password, timestamp }, 'POST');
 }

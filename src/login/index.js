@@ -27,7 +27,6 @@ export default class NormalLoginForm extends Component {
 
     const { phone, password } = values;
     var getTimestamp = new Date().getTime();
-    console.log(getTimestamp);
     const response = await reqLogin(phone, password, getTimestamp);
     const result = response.data;
     if (result.account.status === 0) {

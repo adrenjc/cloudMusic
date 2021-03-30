@@ -81,7 +81,7 @@ class PlayList extends Component {
 
     this.getSongname(e);
 
-    this.setState({ result, info, isLoding: false });
+    this.setState({ result, info });
   };
 
   //获取歌曲 歌名 专辑 歌曲名字 (info 为当前歌单所有歌曲的id)
@@ -128,7 +128,7 @@ class PlayList extends Component {
 
     //更新歌单
     this.getSongname(e);
-    this.setState({ result, info, isLoding: false });
+    this.setState({ result, info });
   };
 
   // 歌曲 ｜ 评论

@@ -29,7 +29,7 @@ export default class Index extends Component {
     const statusResult = await loginStatus();
 
     const { data: { data: { profile = {} } = {} } = {} } = statusResult;
-
+    console.log(statusResult);
     const { nickname: name, userId } = profile;
 
     this.setState({ name, userId });

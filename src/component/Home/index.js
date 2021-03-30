@@ -57,7 +57,7 @@ export default class Home extends Component {
 
   render() {
     const antIcon = <LoadingOutlined style={{ fontSize: 200 }} spin />;
-    const { isLoding } = this.setState;
+    const { isLoding } = this.state;
     return (
       <div className="admin">
         {isLoding ? (
