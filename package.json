@@ -1,7 +1,6 @@
 {
   "name": "cloudmusic",
   "version": "0.1.0",
-  "proxy":"https://adrenjc-cloud-music-api.vercel.app",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.1",
@@ -19,6 +18,7 @@
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-virtualized": "^9.22.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "store": "^2.0.12",
@@ -51,5 +51,4 @@
   "devDependencies": {
     "eslint-plugin-react-hooks": "^4.2.0"
   }
-
 }

@@ -1,32 +1,43 @@
 import React, { Component } from 'react';
 import { Carousel } from 'antd';
 import './index.css';
-import img1 from './imgs/1.jpg';
-import img2 from './imgs/2.jpg';
-import img3 from './imgs/3.jpg';
 import { Row, Col, Divider, Image, Spin } from 'antd';
-import { recommendPlayList } from '../../api/index';
+import { recommendPlayList, getBanner } from '../../api/index';
 import { LoadingOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 export default class Home extends Component {
   componentDidMount() {
     this.init();
   }
 
+  componentWillUnmount() {
+    this.setState = () => false;
+  }
   state = {
     arr: [],
+    banners: [],
     isLoding: false,
   };
 
   init = async () => {
     await this.getRecommendPlayList();
+    await this.getBanner();
+    this.setState({ isLoding: false });
   };
 
   getRecommendPlayList = async () => {
     await this.setState({ isLoding: true });
     const result = await recommendPlayList();
     const value = result.data.recommend.slice(0, 10);
-    this.setState({ arr: value, isLoding: false });
+    this.setState({ arr: value });
+  };
+
+  getBanner = async () => {
+    const result = await getBanner();
+    const value = result.data.banners.slice(0, 6);
+    console.log(value);
+    this.setState({ banners: value });
   };
 
   admin = () => {
@@ -43,10 +54,12 @@ export default class Home extends Component {
               margin: '4px 18px 40px 18px',
             }}
           >
-            <div className="content-image">
+            {/* <div > */}
+            <Link to={`/App/playlist/${items.id}`} className="content-image">
               <Image src={items.picUrl} preview={false}></Image>
               <div>{items.name}</div>
-            </div>
+            </Link>
+            {/* </div> */}
           </Col>
         );
       } else {
@@ -57,7 +70,7 @@ export default class Home extends Component {
 
   render() {
     const antIcon = <LoadingOutlined style={{ fontSize: 200 }} spin />;
-    const { isLoding } = this.state;
+    const { isLoding, banners } = this.state;
     return (
       <div className="admin">
         {isLoding ? (
@@ -70,15 +83,20 @@ export default class Home extends Component {
           <div>
             <div className="carousel">
               <Carousel effect="fade" autoplay>
-                <div className="home-img">
-                  <img src={img1} alt=""></img>
+                {/* <img src={img1} alt=""></img>
                 </div>
                 <div className="home-img">
                   <img src={img2} alt=""></img>
                 </div>
                 <div className="home-img">
-                  <img src={img3} alt=""></img>
-                </div>
+                  <img src={img3} alt=""></img> */}
+                {banners.map((items) => {
+                  return (
+                    <div className="home-img" key={items.imageUrl}>
+                      <img src={items.imageUrl} alt=""></img>
+                    </div>
+                  );
+                })}
               </Carousel>
             </div>
             <div className="content-area">

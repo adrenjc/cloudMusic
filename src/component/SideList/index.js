@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 import { DeleteOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
+import PubSub from 'pubsub-js';
 // import PubSub from 'pubsub-js';
 // import list from '../../redux/reducers/list_reducers';
 // import store from '../../redux/store';
@@ -9,6 +10,15 @@ import { connect } from 'react-redux';
 const SideList = (props) => {
   const [title, setTitle] = useState(true);
   const [list, setList] = useState(null);
+
+  useEffect(() => {
+    let token = PubSub.subscribe('audioIndex', async (_, data) => {
+      await setList(data);
+      return () => {
+        PubSub.unsubscribe(token);
+      };
+    });
+  }, []);
 
   const setState = (data) => {
     switch (data) {
@@ -23,25 +33,21 @@ const SideList = (props) => {
     }
   };
 
-  const cilckSide = async (items) => {
-    await setList(items.key);
-    const audio = document.getElementById('audio');
-    audio.play();
-  };
+  // const cilckSide = async (items) => {
+  //   await setList(items.key);
+  //   const audio = document.getElementById('audio');
+  //   audio.play();
+  // };
 
   const mapSidelist = () => {
     const result = props.playList.data;
     return result.map((items) => {
-      // const value = result.findIndex((element) => {
-      //   return (element = items);
-      // });
-      // console.log(value);
       return (
         <tr
           key={items.key}
-          onDoubleClick={async () => {
-            await cilckSide(items);
-          }}
+          // onDoubleClick={async () => {
+          //   await cilckSide(items);
+          // }}
         >
           <td
             className={`sidelist-songname ${

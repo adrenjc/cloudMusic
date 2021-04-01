@@ -44,7 +44,13 @@ class Audio extends Component {
         details: { key = {} },
       } = this.state;
       const result = data.indexOf(key);
-      await this.setState({ allSongId: data, audioIndex: result });
+      await this.setState({ allSongId: data, audioIndex: result }, () => {
+        PubSub.publish(
+          'audioIndex',
+          this.state.allSongId[this.state.audioIndex]
+        );
+      });
+
       // const { allSongId, audioIndex } = this.state;
       // console.log(allSongId[audioIndex]);
     });
@@ -105,7 +111,7 @@ class Audio extends Component {
           isPlay: false,
         });
         break;
-      //静音（待完成）
+      //静音
       case 'muted':
         const { isMuted } = this.state;
         if (isMuted === false) {
@@ -167,6 +173,10 @@ class Audio extends Component {
           const { setAudioUrl, setAudioDetails } = this.props;
           await setAudioDetails(songs);
           await setAudioUrl(data);
+          PubSub.publish(
+            'audioIndex',
+            this.state.allSongId[this.state.audioIndex]
+          );
           audio.play();
         }
       );
@@ -184,6 +194,10 @@ class Audio extends Component {
         const { setAudioUrl, setAudioDetails } = this.props;
         await setAudioDetails(songs);
         await setAudioUrl(data);
+        PubSub.publish(
+          'audioIndex',
+          this.state.allSongId[this.state.audioIndex]
+        );
         audio.play();
       });
     }
@@ -229,6 +243,10 @@ class Audio extends Component {
           const { setAudioUrl, setAudioDetails } = this.props;
           await setAudioDetails(songs);
           await setAudioUrl(data);
+          PubSub.publish(
+            'audioIndex',
+            this.state.allSongId[this.state.audioIndex]
+          );
           audio.play();
         });
       } else if (audioIndex - 1 >= 0) {
@@ -248,6 +266,10 @@ class Audio extends Component {
             const { setAudioUrl, setAudioDetails } = this.props;
             await setAudioDetails(songs);
             await setAudioUrl(data);
+            PubSub.publish(
+              'audioIndex',
+              this.state.allSongId[this.state.audioIndex]
+            );
             audio.play();
           }
         );
@@ -280,6 +302,10 @@ class Audio extends Component {
             const { setAudioUrl, setAudioDetails } = this.props;
             await setAudioDetails(songs);
             await setAudioUrl(data);
+            PubSub.publish(
+              'audioIndex',
+              this.state.allSongId[this.state.audioIndex]
+            );
             audio.play();
           }
         );
@@ -297,6 +323,10 @@ class Audio extends Component {
           const { setAudioUrl, setAudioDetails } = this.props;
           await setAudioDetails(songs);
           await setAudioUrl(data);
+          PubSub.publish(
+            'audioIndex',
+            this.state.allSongId[this.state.audioIndex]
+          );
           audio.play();
         });
       }

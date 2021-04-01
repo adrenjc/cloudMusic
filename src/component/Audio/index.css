@@ -59,7 +59,7 @@
   z-index: 9999;
   -webkit-appearance: none; /*清除系统默认样式*/
   width: 100vw;
-  background: -webkit-linear-gradient(#d33a31, #d33a31) no-repeat, #252525; /*设置左边颜色为#61bd12，右边颜色为#ddd*/
+  background: -webkit-linear-gradient(#d33a31, #d33a31) no-repeat, #343434;
   /* background-size: 75% 100%; 设置左右宽度比例 */
   height: 0.1rem; /*横条的高度*/
   border-radius: 0.1rem;

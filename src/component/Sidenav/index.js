@@ -18,6 +18,7 @@ export default class Index extends Component {
     name: '',
     userId: '',
     menuList: [],
+    avatarUrl: '',
   };
 
   init = async () => {
@@ -29,10 +30,9 @@ export default class Index extends Component {
     const statusResult = await loginStatus();
 
     const { data: { data: { profile = {} } = {} } = {} } = statusResult;
-    console.log(statusResult);
-    const { nickname: name, userId } = profile;
+    const { nickname: name, userId, avatarUrl } = profile;
 
-    this.setState({ name, userId });
+    this.setState({ name, userId, avatarUrl });
   };
 
   getPlayListInfo = async () => {
@@ -105,13 +105,15 @@ export default class Index extends Component {
   };
 
   render() {
-    const { name } = this.state;
+    const { name, avatarUrl } = this.state;
 
     return (
       <div>
         <div className="side-nav">
           <div className="side-user">
-            <div className="user-avatar"></div>
+            <div className="user-avatar">
+              <img src={avatarUrl} alt="头像"></img>
+            </div>
             <div className="user">{name}</div>
           </div>
           <div className="side-page">

@@ -1,9 +1,9 @@
 import ajax from './ajax';
 
 // const url = 'https://adrenjc-cloud-music-api.vercel.app';
-// const URL = 'http://localhost:4000';
+// const URL = 'http://localhost:3000';
 // const URL = 'https://adrenjc-cloud-music-api.vercel.app';
-const URL = '';
+const URL = '/api1';
 
 export function reqLogin(phone, password, timestamp) {
   return ajax(URL + '/login/cellphone', { phone, password, timestamp }, 'POST');
@@ -34,3 +34,7 @@ export function getSongname(ids) {
 export function getSongURL(id) {
   return ajax(URL + '/song/url', { id }, 'GET');
 }
+
+export const getBanner = () => {
+  return ajax(URL + '/banner', {}, 'GET');
+};

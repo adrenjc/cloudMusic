@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 // import ReactDom from 'react-dom';
 import { getPlaylistData, getSongname, getSongURL } from '../../api/index';
+// eslint-disable-next-line no-unused-vars
 import { Button, Menu, Table, Image, Spin } from 'antd';
 import {
   CaretRightOutlined,
   FolderOpenOutlined,
   ShareAltOutlined,
   LoadingOutlined,
+  SearchOutlined,
 } from '@ant-design/icons';
 import './index.css';
 import PubSub from 'pubsub-js';
@@ -15,6 +17,7 @@ import moment from 'moment';
 import { getList } from '../../redux/action/Playlist_action';
 import { setAudioUrl } from '../../redux/action/Audio_action';
 import { connect } from 'react-redux';
+import { AutoSizer, List } from 'react-virtualized';
 
 class PlayList extends Component {
   componentDidMount() {
@@ -48,16 +51,28 @@ class PlayList extends Component {
     //歌单
     song: '',
     info: '',
+    list: null,
+    index: null,
+    //搜索关键词
+    initArr: [],
+    //搜索状态
+    searc: false,
   };
 
   //第一次组件挂载加载歌单
   init = async () => {
     await this.getPlayList();
+    await PubSub.subscribe('audioIndex', async (_, data) => {
+      await this.setState({ list: data });
+    });
   };
 
   //用于点击歌单后更新歌单
   init2 = async (data) => {
     await this.UpdataPlayList(data);
+    await PubSub.subscribe('audioIndex', async (_, data) => {
+      await this.setState({ list: data });
+    });
   };
 
   //更新state里 歌单Id
@@ -92,10 +107,12 @@ class PlayList extends Component {
       data: { songs = {} },
     } = value;
     const result = songs;
-
+    let arr = [];
     let song = result.map((items) => {
       const { al, ar, id, name, dt } = items;
       //使用moment插件转换歌曲时长
+      arr.push(name, al.name, ar[0].name);
+
       const duration = moment(dt).format('mm:ss');
       return {
         key: id,
@@ -106,7 +123,7 @@ class PlayList extends Component {
         duration,
       };
     });
-    this.setState({ song, isLoding: false });
+    this.setState({ song, isLoding: false, initArr: song });
   };
 
   //第一次渲染获取歌单ID
@@ -163,12 +180,133 @@ class PlayList extends Component {
   };
 
   //给每行上类名设定每行不同的颜色
-  getRowClassName = (record, index) => {
-    let className = '';
-    className = index % 2 === 0 ? 'oddRow' : 'evenRow';
-    return className;
+  // getRowClassName = (record, index) => {
+  //   let className = '';
+  //   className = index % 2 === 0 ? 'oddRow' : 'evenRow';
+  //   return className;
+  // };
+  // function rowRenderer({key, index, style}) {
+
+  // }
+
+  rowRenderer = ({ key, index, style }) => {
+    const { song, list } = this.state;
+
+    return (
+      <div key={key} style={style}>
+        <div
+          onDoubleClick={() => {
+            this.doubleClick(song[index]);
+          }}
+          className={index % 2 === 0 ? 'playlist-song' : 'playlist-song table2'}
+        >
+          <div className="playlist-index">{index + 1}</div>
+          <div
+            className={
+              song[index].key === list
+                ? 'playlist-song-name active-list'
+                : 'playlist-song-name'
+            }
+          >
+            {song[index].name}
+          </div>
+          <div className="playlist-song-singer">{song[index].singer}</div>
+          <div className="playlist-song-album">{song[index].album}</div>
+          <div className="playlist-song-time">{song[index].duration}</div>
+        </div>
+        {/* {this.playlist2(song, index)} */}
+      </div>
+    );
+  };
+  playlist2 = (song, index) => {
+    return (
+      <div
+        onDoubleClick={() => {
+          this.doubleClick(song[index]);
+        }}
+        className={index % 2 === 0 ? 'playlist-song' : 'playlist-song table2'}
+      >
+        <div className="playlist-index">{index + 1}</div>
+        <div className="playlist-song-name">{song[index].name}</div>
+        <div className="playlist-song-singer">{song[index].singer}</div>
+        <div className="playlist-song-album">{song[index].album}</div>
+        <div className="playlist-song-time">{song[index].duration}</div>
+      </div>
+    );
   };
 
+  doubleClick = (items) => {
+    const { song, info } = this.state;
+
+    this.getSongUrl(items.key);
+
+    PubSub.publish('songID', items);
+    PubSub.publish('songAllId', info);
+    const { getList } = this.props;
+    getList(song);
+  };
+
+  //歌单搜索(本地搜索)
+  search = async (event) => {
+    await this.setState({ search: true });
+    const {
+      target: { value },
+    } = event;
+
+    const { initArr } = this.state;
+    console.log(initArr);
+    // let newArr = arr.filter((items) => {
+    //   return items.includes(value);
+    // });
+
+    // const data = song.find((items) => items.name === newArr);
+    const name = initArr.filter((items) => {
+      return items.name.includes(value);
+    });
+    const singer = initArr.filter((items) => {
+      return items.singer.includes(value);
+    });
+    const album = initArr.filter((items) => {
+      return items.album.includes(value);
+    });
+    let allArr = name.concat(singer, album);
+    // console.log(name, singer, album);
+    let newArr = [...new Set(allArr)];
+    console.log(newArr);
+    this.setState({ song: newArr });
+    // const result = name.concat(singer, album);
+    // console.log(album);
+    // for (const items of arr) {
+    //   let data;
+    //   if (items.name.includes(value)) {
+    //     data = arr.filter((items) => {
+    //       return items.name.includes(value);
+    //     });
+    //   }
+    // }
+
+    // this.setState({
+    //   song: value
+    //     ? initArr.filter((items) => {
+    //         return items.includes(value);
+    //       })
+    //     : initArr,
+    // });
+    // this.setState({
+    //   song: value
+    //     ? arr.filter((items) => {
+    //         return items.singer.includes(value);
+    //       })
+    //     : arr,
+    // });
+    // this.setState({
+    //   song: value
+    //     ? arr.filter((items) => {
+    //         return items.album.includes(value);
+    //       })
+    //     : arr,
+    // });
+  };
   render() {
     const {
       name,
@@ -189,37 +327,37 @@ class PlayList extends Component {
     let D = date.getDate() + ' ';
 
     //表头信息
-    const columns = [
-      {
-        title: '歌名',
-        dataIndex: 'name',
-        key: 'name',
-        width: '40%',
-        ellipsis: true,
-      },
-      {
-        title: '歌手',
-        dataIndex: 'singer',
-        key: 'singer',
-        ellipsis: true,
-        width: '25%',
-      },
-      {
-        width: '25%',
-        title: '专辑',
-        dataIndex: 'album',
-        key: 'album',
+    // const columns = [
+    //   {
+    //     title: '歌名',
+    //     dataIndex: 'name',
+    //     key: 'name',
+    //     width: '40%',
+    //     ellipsis: true,
+    //   },
+    //   {
+    //     title: '歌手',
+    //     dataIndex: 'singer',
+    //     key: 'singer',
+    //     ellipsis: true,
+    //     width: '25%',
+    //   },
+    //   {
+    //     width: '25%',
+    //     title: '专辑',
+    //     dataIndex: 'album',
+    //     key: 'album',
 
-        ellipsis: true,
-      },
-      {
-        width: '10%',
-        title: '时长',
-        dataIndex: 'duration',
-        key: 'duration',
-        ellipsis: true,
-      },
-    ];
+    //     ellipsis: true,
+    //   },
+    //   {
+    //     width: '10%',
+    //     title: '时长',
+    //     dataIndex: 'duration',
+    //     key: 'duration',
+    //     ellipsis: true,
+    //   },
+    // ];
     const { avatarUrl = 'defaultAvatarURL' } = creator;
     const antIcon = <LoadingOutlined style={{ fontSize: 200 }} spin />;
 
@@ -320,8 +458,21 @@ class PlayList extends Component {
                   <Menu.Item key="mail">歌曲</Menu.Item>
                   <Menu.Item key="app">评论</Menu.Item>
                 </Menu>
+                <div className="playlist-search-box">
+                  <SearchOutlined
+                    style={{
+                      color: '#b3b3b3',
+                    }}
+                  />
+                  <input
+                    type="text"
+                    className="playlist-search"
+                    placeholder="搜索歌单音乐"
+                    onChange={this.search}
+                  ></input>
+                </div>
 
-                <Table
+                {/* <Table
                   dataSource={song}
                   columns={columns}
                   pagination={false}
@@ -329,8 +480,41 @@ class PlayList extends Component {
                   onRow={this.onClickRow}
                   rowClassName={this.getRowClassName}
                   // rowKey = (items)=>{items.id}
-                />
+                /> */}
               </div>
+              {/* <table className="playlist-table">
+                <tbody>
+                  <tr className="playlist-song">
+                    <td className="playlist-song-name">音乐标题</td>
+                    <td className="playlist-song-singer">歌手</td>
+                    <td className="playlist-song-album">专辑</td>
+                    <td className="playlist-song-time">时长</td>
+                  </tr>
+                </tbody>
+              </table> */}
+              <div className="playlist-table1">
+                <div className="playlist-song1">
+                  <div className="playlist-index"></div>
+                  <div className="playlist-song-name">音乐标题</div>
+                  <div className="playlist-song-singer">歌手</div>
+                  <div className="playlist-song-album">专辑</div>
+                  <div className="playlist-song-time">时长</div>
+                </div>
+              </div>
+            </div>
+            <div className="playlist-table">
+              <AutoSizer>
+                {({ height, width }) => (
+                  <List
+                    height={height}
+                    className="playlist-table"
+                    rowCount={song.length}
+                    rowHeight={35}
+                    rowRenderer={this.rowRenderer}
+                    width={width}
+                  />
+                )}
+              </AutoSizer>
             </div>
           </div>
         )}

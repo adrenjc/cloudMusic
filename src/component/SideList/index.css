@@ -127,11 +127,11 @@
   padding-right: 24px;
 }
 
-table tr:nth-child(odd) {
+.sidelist-song tr:nth-child(odd) {
   background: #363636;
 }
 
-table tr:nth-child(even) {
+.sidelist-song tr:nth-child(even) {
   background: #3a3a3a;
 }
 

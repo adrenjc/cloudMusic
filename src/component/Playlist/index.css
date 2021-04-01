@@ -1,9 +1,10 @@
 .playlist {
   position: relative;
-  left: 200px;
+  left: 185px;
   width: calc(100% - 200px);
   height: calc(100% - 109px);
   margin: 0;
+  /* padding-left: ; */
   overflow: auto;
   /* background-color: red; */
 }
@@ -91,9 +92,29 @@
 .playlist-content {
   position: relative;
   margin-top: 40px;
-  /* background-color: red; */
-  /* height: 634px; */
   overflow: auto;
+}
+.playlist-search-box {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  position: absolute;
+  top: 20px;
+}
+.playlist-search {
+  /* display: flex;
+  justify-content: end; */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* width: 150px; */
+  font-size: 8px;
+  color: #b3b3b3;
+  height: 20px;
+  border-radius: 15px;
+  /* border: 1px solid #c8cccf; */
+  padding: 5px;
+  background-color: #252525;
 }
 
 .playlist-loding {
@@ -134,4 +155,77 @@
   > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected)
   > td {
   background: #323232;
+}
+
+.playlist-table {
+  width: 100%;
+  height: calc(100vh - 445px);
+  position: relative;
+  /* height: 200px; */
+  /* background-color: red; */
+}
+
+.playlist-song {
+  color: #888888;
+  height: 35px;
+  display: flex;
+  line-height: 35px;
+  background-color: #292929;
+}
+.playlist-song1 {
+  color: #888888;
+  height: 35px;
+  display: flex;
+  line-height: 35px;
+  /* background-color: #292929; */
+}
+
+.playlist-song:hover {
+  background-color: #323232;
+}
+.playlist-song:focus {
+  background-color: #323232;
+}
+.playlist-index {
+  width: 5%;
+  text-align: center;
+}
+.playlist-song-name {
+  width: 35%;
+  /* padding-left: 50px; */
+  user-select: none;
+  display: block; /*内联对象需加*/
+  word-break: keep-all;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.playlist-song-singer {
+  width: 20%;
+  user-select: none;
+}
+.playlist-song-album {
+  width: 30%;
+  user-select: none;
+}
+
+.ReactVirtualized__List:focus {
+  outline: none;
+}
+
+/* .playlist-song:nth-child(odd) {
+  background-color: #292929;
+} */
+
+/* .playlist-table div:nth-child(odd) {
+  background: #292929;
+} */
+.table2 {
+  background-color: #252525;
+}
+
+.acitve-playlist {
+  color: #d33a31 !important;
+  user-select: none; /* Chrome/Safari/Opera */
 }
