@@ -254,7 +254,6 @@ class PlayList extends Component {
     } = event;
 
     const { initArr } = this.state;
-    console.log(initArr);
     // let newArr = arr.filter((items) => {
     //   return items.includes(value);
     // });
@@ -270,42 +269,9 @@ class PlayList extends Component {
       return items.album.includes(value);
     });
     let allArr = name.concat(singer, album);
-    // console.log(name, singer, album);
-    let newArr = [...new Set(allArr)];
-    console.log(newArr);
-    this.setState({ song: newArr });
-    // const result = name.concat(singer, album);
-    // console.log(album);
-    // for (const items of arr) {
-    //   let data;
-    //   if (items.name.includes(value)) {
-    //     data = arr.filter((items) => {
-    //       return items.name.includes(value);
-    //     });
-    //   }
-    // }
 
-    // this.setState({
-    //   song: value
-    //     ? initArr.filter((items) => {
-    //         return items.includes(value);
-    //       })
-    //     : initArr,
-    // });
-    // this.setState({
-    //   song: value
-    //     ? arr.filter((items) => {
-    //         return items.singer.includes(value);
-    //       })
-    //     : arr,
-    // });
-    // this.setState({
-    //   song: value
-    //     ? arr.filter((items) => {
-    //         return items.album.includes(value);
-    //       })
-    //     : arr,
-    // });
+    let newArr = [...new Set(allArr)];
+    this.setState({ song: newArr });
   };
   render() {
     const {
