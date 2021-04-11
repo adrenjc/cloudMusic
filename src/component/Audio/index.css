@@ -124,22 +124,38 @@
 .song-details-data {
   position: relative;
   left: 13px;
+  display: flex;
+  /* height: 0; */
+  /* align-items: center; */
 }
 
 .details-name {
+  word-break: keep-all; /* 不换行 */
+  white-space: nowrap; /* 不换行 */
   color: #bebebe;
+  height: auto;
   font-size: 14px;
-
+  /* width: 200px; */
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   /* margin-right: 8px; */
 }
 
 .delimiter {
-  margin: 0 6px;
+  padding-top: 1px;
+  margin: 0 4px;
   color: #929292;
 }
-.datailis-singer {
+.detailis-singer {
   font-size: 12px;
   color: #929292;
+  padding-top: 4px;
+  word-break: keep-all; /* 不换行 */
+  white-space: nowrap; /* 不换行 */
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .current {

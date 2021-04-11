@@ -38,3 +38,7 @@ export function getSongURL(id) {
 export const getBanner = () => {
   return ajax(URL + '/banner', {}, 'GET');
 };
+
+export const getLrc = (id) => {
+  return ajax(URL + '/lyric', { id }, 'GET');
+};

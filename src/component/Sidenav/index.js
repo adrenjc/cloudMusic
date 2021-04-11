@@ -127,6 +127,7 @@ export default class Index extends Component {
               }}
               mode="inline"
               theme="dark"
+              defaultOpenKeys={['sub3', 'sub4']}
             >
               <Menu.Item key="1">
                 <Link

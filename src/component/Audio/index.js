@@ -14,6 +14,7 @@ import { setAudioUrl } from '../../redux/action/Audio_action';
 import { setAudioDetails } from '../../redux/action/AudioDetails_action';
 import { getSongURL, getSongname } from '../../api/index';
 import { Image, message } from 'antd';
+import Lrc from '../Lrc/index.js';
 
 // import store from '../../redux/store';
 
@@ -72,6 +73,7 @@ class Audio extends Component {
     allSongId: '', //对列歌单所有ID
     audioIndex: '', //当前播放歌曲在队列歌单ID里的索引值
     iconPlaylist: false, //是否选中队列歌单
+    lrc: false, //控制歌词页面开关
   };
 
   //格式化歌曲时长
@@ -333,8 +335,13 @@ class Audio extends Component {
     }
   };
 
-  teeeext = () => {
-    console.log(this.props.audio);
+  lrc = () => {
+    const { lrc } = this.state;
+    if (lrc === false) {
+      this.setState({ lrc: true });
+    } else {
+      this.setState({ lrc: false });
+    }
   };
 
   render() {
@@ -345,11 +352,13 @@ class Audio extends Component {
       isMuted,
       volume,
       progress,
+      lrc,
     } = this.state;
     const data = { backgroundSize: progress + '% 100%' }; //显示进度条
     const data2 = { backgroundSize: volume + '% 100%' }; //音量
 
     const { audio } = this.props;
+    // console.log(audio);
     let url;
     if (audio.data === null) {
       url = null;
@@ -397,17 +406,20 @@ class Audio extends Component {
                 <Image
                   preview={false}
                   src={audioDetails.data[0].al.picUrl}
-                  onClick={this.teeeext}
+                  onClick={this.lrc}
                 />
               </div>
               <div className=" song-details-data">
-                <span className="details-name">
-                  {audioDetails.data[0].name}
-                </span>
+                {/* <span className="details-name"></span>
                 <span className="delimiter">-</span>
                 <span className="datailis-singer">
                   {'出错啦' && audioDetails.data[0].al.name}
-                </span>
+                </span> */}
+                <div className="details-name">{audioDetails.data[0].name}</div>
+                <div className="delimiter">-</div>
+                <div className="detailis-singer">
+                  {'出错啦' && audioDetails.data[0].al.name}
+                </div>
               </div>
               <span className="current">
                 {this.millisecondToDate(currentTime) +
@@ -466,6 +478,9 @@ class Audio extends Component {
           </div>
         </div>
         <SideList></SideList>
+        {/* {this.state.lrc ? <Lrc></Lrc> : null} */}
+        <Lrc state={lrc} data={audioDetails.data} isPlay={isPlay}></Lrc>
+        {/* {console.log(this.state.lrc)} */}
       </div>
     );
   }

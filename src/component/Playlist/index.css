@@ -95,16 +95,12 @@
   overflow: auto;
 }
 .playlist-search-box {
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-  align-items: center;
   position: absolute;
+  float: right;
+  right: 0;
   top: 20px;
 }
 .playlist-search {
-  /* display: flex;
-  justify-content: end; */
   -webkit-appearance: none;
   -moz-appearance: none;
   /* width: 150px; */
@@ -129,7 +125,7 @@
   color: #7d2525 !important;
 } */
 
-.ant-menu-item-selected {
+.playlist-content-title .ant-menu-item-selected {
   color: #b82525 !important;
   border-bottom: 2px solid #b82525 !important;
 }
@@ -171,6 +167,9 @@
   display: flex;
   line-height: 35px;
   background-color: #292929;
+}
+.playlist-song:hover {
+  cursor: pointer;
 }
 .playlist-song1 {
   color: #888888;

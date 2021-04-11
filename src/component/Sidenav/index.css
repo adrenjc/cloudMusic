@@ -47,3 +47,7 @@
 .playlist {
   padding-left: 15px !important;
 }
+
+.side-page .ant-menu-dark .ant-menu-item-selected > a {
+  color: red !important;
+}
