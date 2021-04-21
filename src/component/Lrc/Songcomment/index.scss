@@ -1,0 +1,165 @@
+.song-comment {
+  position: relative;
+  margin-top: 100px;
+  width: 100vw;
+  height: 300px;
+  //   background-color: red;
+  //   display: flex;
+  .comment-box {
+    position: relative;
+    width: 1000px;
+    height: 300px;
+    // margin-left: 25%;
+    margin: 0 auto;
+
+    .comment-songs {
+      position: absolute;
+      height: 300px;
+      width: 740px;
+      //   background-color: blueviolet;
+      .featured-box {
+        .featured-comment {
+          color: #b5b5b5;
+          font-size: 16px;
+        }
+        .user-comments {
+          width: 100%;
+          margin-top: 20px;
+
+          min-height: 60px;
+          max-height: 120px;
+          display: flex;
+          .user-comment-img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+          }
+          .user-comment {
+            position: relative;
+            width: 85%;
+            border-width: 0 0 1px 0;
+
+            border-style: solid;
+
+            border-color: #373737;
+
+            .user-comment-Box {
+              position: relative;
+              .comment-nickname {
+                color: cornflowerblue;
+                font-size: 14px;
+              }
+              .comment-context {
+                color: #d5d5d5;
+                font-size: 14px;
+              }
+            }
+            .user-comment-context {
+              position: absolute;
+            }
+            .user-comment-time {
+              position: relative;
+              margin-top: 5px;
+              color: #808080;
+              font-size: 12px;
+            }
+            .user-comment-like {
+              position: absolute;
+              right: 0;
+              bottom: 0;
+              font-size: 12px;
+              color: #808080;
+            }
+          }
+        }
+      }
+      .new-comment-box {
+        margin-top: 40px;
+        .new-comment {
+          color: #b5b5b5;
+          font-size: 16px;
+        }
+        .user-comments {
+          width: 100%;
+          margin-top: 20px;
+
+          min-height: 60px;
+          max-height: 120px;
+          display: flex;
+          .user-comment-img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+          }
+          .user-comment {
+            position: relative;
+            width: 85%;
+            border-width: 0 0 1px 0;
+
+            border-style: solid;
+
+            border-color: #373737;
+
+            .user-comment-Box {
+              position: relative;
+              .comment-nickname {
+                color: cornflowerblue;
+                font-size: 14px;
+              }
+              .comment-context {
+                color: #d5d5d5;
+                font-size: 14px;
+              }
+              .user-replay {
+                margin: 5px 0;
+                width: 100%;
+                padding: 5px;
+                background-color: #333333;
+                .replay-name {
+                  color: #85b9e6;
+                }
+                .replay-content {
+                  color: #c9c9c9;
+                }
+              }
+            }
+            .user-comment-context {
+              position: absolute;
+            }
+            .user-comment-time {
+              position: relative;
+              margin-top: 5px;
+              color: #808080;
+              font-size: 12px;
+            }
+            .user-comment-like {
+              position: absolute;
+              right: 0;
+              bottom: 0;
+              font-size: 12px;
+              color: #808080;
+            }
+          }
+        }
+      }
+      .new-comment {
+        color: #b5b5b5;
+        font-size: 16px;
+      }
+    }
+    .similar-songs {
+      position: absolute;
+      // margin-left: 65%;
+      right: 0;
+      //   left: 650px;
+      //   right: 0;
+      height: 300px;
+      width: 260px;
+      //   background-color: blue;
+    }
+  }
+}

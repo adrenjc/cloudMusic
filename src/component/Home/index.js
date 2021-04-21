@@ -36,7 +36,6 @@ export default class Home extends Component {
   getBanner = async () => {
     const result = await getBanner();
     const value = result.data.banners.slice(0, 6);
-    console.log(value);
     this.setState({ banners: value });
   };
 

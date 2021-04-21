@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import './index.css';
 import SideList from '../SideList/index';
 import PubSub from 'pubsub-js';
@@ -82,7 +82,26 @@ class Audio extends Component {
     let minite = Math.floor(time / 60);
     return `${minite}:${second >= 10 ? second : `0${second}`}`;
   }
-
+  audioPlayer = createRef();
+  //控制歌曲
+  audios = async () => {
+    const { current } = this.audioPlayer;
+    const { audioIndex, allSongId } = this.state;
+    const value = await getSongURL(allSongId[audioIndex]);
+    const {
+      data: { data = {} },
+    } = value;
+    const result = await getSongname(allSongId[audioIndex]);
+    const {
+      data: { songs = {} },
+    } = result;
+    const { setAudioUrl, setAudioDetails } = this.props;
+    await setAudioDetails(songs);
+    await setAudioUrl(data);
+    PubSub.publish('audioIndex', this.state.allSongId[this.state.audioIndex]);
+    current.play();
+    // console.log(audio);
+  };
   controlAudio(type, value) {
     const audio = document.getElementById(`audio`);
     const data = document.getElementById('time');
@@ -157,50 +176,17 @@ class Audio extends Component {
   //列表播放 自动播放下一首
   controlNextAudio = async () => {
     const { allSongId, audioIndex } = this.state;
-    const audio = document.getElementById(`audio`);
 
     if (audioIndex + 1 < allSongId.length) {
       await this.setState(
         { audioIndex: audioIndex + 1, isPlay: true },
         async () => {
-          const { allSongId, audioIndex } = this.state;
-          const value = await getSongURL(allSongId[audioIndex]);
-          const {
-            data: { data = {} },
-          } = value;
-          const result = await getSongname(allSongId[audioIndex]);
-          const {
-            data: { songs = {} },
-          } = result;
-          const { setAudioUrl, setAudioDetails } = this.props;
-          await setAudioDetails(songs);
-          await setAudioUrl(data);
-          PubSub.publish(
-            'audioIndex',
-            this.state.allSongId[this.state.audioIndex]
-          );
-          audio.play();
+          this.audios();
         }
       );
     } else if (audioIndex + 2 > allSongId.length) {
       await this.setState({ audioIndex: 0, isPlay: true }, async () => {
-        const { allSongId, audioIndex } = this.state;
-        const value = await getSongURL(allSongId[audioIndex]);
-        const {
-          data: { data = {} },
-        } = value;
-        const result = await getSongname(allSongId[audioIndex]);
-        const {
-          data: { songs = {} },
-        } = result;
-        const { setAudioUrl, setAudioDetails } = this.props;
-        await setAudioDetails(songs);
-        await setAudioUrl(data);
-        PubSub.publish(
-          'audioIndex',
-          this.state.allSongId[this.state.audioIndex]
-        );
-        audio.play();
+        this.audios();
       });
     }
   };
@@ -213,12 +199,10 @@ class Audio extends Component {
       this.setState({ iconPlaylist: true }, () => {
         setListTrue(true);
       });
-      // PubSub.publish('listState', true);
     } else {
       this.setState({ iconPlaylist: false }, () => {
         setListFalse(false);
       });
-      // PubSub.publish('listState', false);
     }
   };
 
@@ -229,50 +213,18 @@ class Audio extends Component {
     if (audio.data === null) {
       message.warning('歌单队列里还没有歌曲');
     } else {
-      const audio = document.getElementById(`audio`);
+      // const audio = document.getElementById(`audio`);
       if (audioIndex === 0) {
         const info = allSongId.length - 1;
         this.setState({ audioIndex: info }, async () => {
-          const { audioIndex, allSongId } = this.state;
-          const value = await getSongURL(allSongId[audioIndex]);
-          const {
-            data: { data = {} },
-          } = value;
-          const result = await getSongname(allSongId[audioIndex]);
-          const {
-            data: { songs = {} },
-          } = result;
-          const { setAudioUrl, setAudioDetails } = this.props;
-          await setAudioDetails(songs);
-          await setAudioUrl(data);
-          PubSub.publish(
-            'audioIndex',
-            this.state.allSongId[this.state.audioIndex]
-          );
-          audio.play();
+          this.audios();
         });
       } else if (audioIndex - 1 >= 0) {
         console.log(audioIndex);
         await this.setState(
           { audioIndex: audioIndex - 1, isPlay: true },
           async () => {
-            const { allSongId, audioIndex } = this.state;
-            const value = await getSongURL(allSongId[audioIndex]);
-            const {
-              data: { data = {} },
-            } = value;
-            const result = await getSongname(allSongId[audioIndex]);
-            const {
-              data: { songs = {} },
-            } = result;
-            const { setAudioUrl, setAudioDetails } = this.props;
-            await setAudioDetails(songs);
-            await setAudioUrl(data);
-            PubSub.publish(
-              'audioIndex',
-              this.state.allSongId[this.state.audioIndex]
-            );
-            audio.play();
+            this.audios();
           }
         );
       }
@@ -286,50 +238,17 @@ class Audio extends Component {
       message.warning('歌单队列里还没有歌曲');
     } else {
       const { allSongId, audioIndex } = this.state;
-      const audio = document.getElementById(`audio`);
 
       if (audioIndex + 1 < allSongId.length) {
         await this.setState(
           { audioIndex: audioIndex + 1, isPlay: true },
           async () => {
-            const { allSongId, audioIndex } = this.state;
-            const value = await getSongURL(allSongId[audioIndex]);
-            const {
-              data: { data = {} },
-            } = value;
-            const result = await getSongname(allSongId[audioIndex]);
-            const {
-              data: { songs = {} },
-            } = result;
-            const { setAudioUrl, setAudioDetails } = this.props;
-            await setAudioDetails(songs);
-            await setAudioUrl(data);
-            PubSub.publish(
-              'audioIndex',
-              this.state.allSongId[this.state.audioIndex]
-            );
-            audio.play();
+            this.audios();
           }
         );
       } else if (audioIndex + 2 > allSongId.length) {
         await this.setState({ audioIndex: 0, isPlay: true }, async () => {
-          const { allSongId, audioIndex } = this.state;
-          const value = await getSongURL(allSongId[audioIndex]);
-          const {
-            data: { data = {} },
-          } = value;
-          const result = await getSongname(allSongId[audioIndex]);
-          const {
-            data: { songs = {} },
-          } = result;
-          const { setAudioUrl, setAudioDetails } = this.props;
-          await setAudioDetails(songs);
-          await setAudioUrl(data);
-          PubSub.publish(
-            'audioIndex',
-            this.state.allSongId[this.state.audioIndex]
-          );
-          audio.play();
+          this.audios();
         });
       }
     }
@@ -394,6 +313,7 @@ class Audio extends Component {
             onEnded={() => {
               this.controlNextAudio();
             }}
+            ref={this.audioPlayer}
           >
             您的浏览器不支持 audio 标签。
           </audio>

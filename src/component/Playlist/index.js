@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import ReactDom from 'react-dom';
 import { getPlaylistData, getSongname, getSongURL } from '../../api/index';
 // eslint-disable-next-line no-unused-vars
-import { Button, Menu, Table, Image, Spin } from 'antd';
+import { Button, Menu, Table, Image, Spin, message } from 'antd';
 import {
   CaretRightOutlined,
   FolderOpenOutlined,
@@ -153,30 +153,21 @@ class PlayList extends Component {
     this.setState({ current: e.key });
   };
 
-  onClickRow = (items) => {
-    return {
-      onDoubleClick: (event) => {
-        const { song, info } = this.state;
-
-        this.getSongUrl(items.key);
-
-        PubSub.publish('songID', items);
-        PubSub.publish('songAllId', info);
-        const { getList } = this.props;
-        getList(song);
-      },
-    };
-  };
-
   getSongUrl = async (key) => {
     const value = await getSongURL(key);
     const {
       data: { data = {} },
     } = value;
-    const { setAudioUrl } = this.props;
-    setAudioUrl(data);
-    const audio = document.getElementById('audio');
-    audio.play();
+    console.log(data);
+    if (data[0].url === null) {
+      message.error('没有版权');
+    } else {
+      const { setAudioUrl } = this.props;
+      setAudioUrl(data);
+
+      const audio = document.getElementById('audio');
+      audio.play();
+    }
   };
 
   //给每行上类名设定每行不同的颜色
@@ -218,32 +209,26 @@ class PlayList extends Component {
       </div>
     );
   };
-  playlist2 = (song, index) => {
-    return (
-      <div
-        onDoubleClick={() => {
-          this.doubleClick(song[index]);
-        }}
-        className={index % 2 === 0 ? 'playlist-song' : 'playlist-song table2'}
-      >
-        <div className="playlist-index">{index + 1}</div>
-        <div className="playlist-song-name">{song[index].name}</div>
-        <div className="playlist-song-singer">{song[index].singer}</div>
-        <div className="playlist-song-album">{song[index].album}</div>
-        <div className="playlist-song-time">{song[index].duration}</div>
-      </div>
-    );
-  };
 
-  doubleClick = (items) => {
+  doubleClick = async (items) => {
     const { song, info } = this.state;
+    const value = await getSongURL(items.key);
+    const {
+      data: { data = {} },
+    } = value;
+    if (data[0].url === null) {
+      message.error('没有版权');
+    } else {
+      const { setAudioUrl } = this.props;
+      setAudioUrl(data);
 
-    this.getSongUrl(items.key);
-
-    PubSub.publish('songID', items);
-    PubSub.publish('songAllId', info);
-    const { getList } = this.props;
-    getList(song);
+      const audio = document.getElementById('audio');
+      audio.play();
+      PubSub.publish('songID', items);
+      PubSub.publish('songAllId', info);
+      const { getList } = this.props;
+      getList(song);
+    }
   };
 
   //歌单搜索(本地搜索)
@@ -254,11 +239,6 @@ class PlayList extends Component {
     } = event;
 
     const { initArr } = this.state;
-    // let newArr = arr.filter((items) => {
-    //   return items.includes(value);
-    // });
-
-    // const data = song.find((items) => items.name === newArr);
     const name = initArr.filter((items) => {
       return items.name.includes(value);
     });
@@ -284,7 +264,7 @@ class PlayList extends Component {
     } = this.state.result;
 
     //获取歌单创建时间
-    var date = new Date(createTime);
+    let date = new Date(createTime);
     let Y = date.getFullYear() + '-';
     let M =
       (date.getMonth() + 1 < 10

@@ -42,3 +42,12 @@ export const getBanner = () => {
 export const getLrc = (id) => {
   return ajax(URL + '/lyric', { id }, 'GET');
 };
+
+export const getComment = (id, offset) => {
+  return ajax(URL + '/comment/music', { id, offset }, 'GET');
+};
+
+//获取相关音乐
+export const getRelatedSong = (id) => {
+  return ajax(URL + '/simi/song', { id }, 'GET');
+};
