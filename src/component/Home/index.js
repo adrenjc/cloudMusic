@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 import { Carousel } from 'antd';
 import './index.css';
 import { Row, Col, Divider, Image, Spin } from 'antd';
-import { recommendPlayList, getBanner } from '../../api/index';
+import {
+  recommendPlayList,
+  getBanner,
+  getUserRecommendPlaylist,
+} from '../../api/index';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class Home extends Component {
+class Home extends Component {
   componentDidMount() {
     this.init();
   }
@@ -28,9 +33,16 @@ export default class Home extends Component {
 
   getRecommendPlayList = async () => {
     await this.setState({ isLoding: true });
-    const result = await recommendPlayList();
-    const value = result.data.recommend.slice(0, 10);
-    this.setState({ arr: value });
+    const { loginstate } = this.props;
+    if (loginstate) {
+      const result = await getUserRecommendPlaylist();
+      const value = result.data.recommend.slice(0, 10);
+      this.setState({ arr: value });
+    } else {
+      const result = await recommendPlayList();
+      const value = result.data.result.slice(0, 10);
+      this.setState({ arr: value });
+    }
   };
 
   getBanner = async () => {
@@ -42,30 +54,28 @@ export default class Home extends Component {
   admin = () => {
     const { arr } = this.state;
     return arr.map((items) => {
-      if (items.type === 1) {
-        return (
-          <Col
-            key={items.id}
-            className="gutter-row"
-            span={4}
-            style={{
-              padding: '0',
-              margin: '4px 18px 40px 18px',
-            }}
-          >
-            {/* <div > */}
-            <Link to={`/App/playlist/${items.id}`} className="content-image">
-              <Image src={items.picUrl} preview={false}></Image>
-              <div>{items.name}</div>
-            </Link>
-            {/* </div> */}
-          </Col>
-        );
-      } else {
-        return null;
-      }
+      return (
+        <Col
+          key={items.id}
+          className="gutter-row"
+          span={4}
+          style={{
+            padding: '0',
+            margin: '4px 18px 40px 18px',
+          }}
+        >
+          {/* <div > */}
+          <Link to={`/App/playlist/${items.id}`} className="content-image">
+            <Image src={items.picUrl} preview={false}></Image>
+            <div>{items.name}</div>
+          </Link>
+          {/* </div> */}
+        </Col>
+      );
     });
   };
+
+  //控制搜索框状态
 
   render() {
     const antIcon = <LoadingOutlined style={{ fontSize: 200 }} spin />;
@@ -119,3 +129,9 @@ export default class Home extends Component {
     );
   }
 }
+
+export default connect((state) => {
+  return {
+    loginstate: state.loginState.data,
+  };
+})(Home);

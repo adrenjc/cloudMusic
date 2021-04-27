@@ -1,5 +1,6 @@
 .song-comment {
-  position: relative;
+  position: absolute;
+  z-index: 9999;
   margin-top: 100px;
   width: 100vw;
   height: 300px;

@@ -10,7 +10,7 @@ const SongComment = (props) => {
   const [hotComment, setHotComment] = useState(null);
   const isHot = useRef();
   const [loding, setLoding] = useState(false);
-  const [relatedSong, setRelatedSong] = useState(null);
+  // const [relatedSong, setRelatedSong] = useState(null);
 
   const dataArr = [];
   const dataArr2 = [];

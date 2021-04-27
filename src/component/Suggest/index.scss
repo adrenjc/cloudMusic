@@ -1,0 +1,33 @@
+.suggest-input {
+  position: absolute;
+  /* bottom: 5px; */
+  z-index: 9999;
+  margin-top: 10px;
+  right: 0;
+  width: 350px;
+  height: calc(100vh - 110px);
+  background-color: #363636;
+  overflow: auto;
+  .suggest-input-title {
+    margin: 8px;
+    color: #919191;
+    .suggset-input-data {
+      color: #85b9e6;
+    }
+  }
+  .suggest-data {
+    font-size: 14px;
+    color: #919191;
+    font-weight: 800;
+    margin: 8px;
+  }
+  .suggest-data-songname {
+    height: 30px;
+    line-height: 30px;
+    margin-left: 25px;
+    color: #919191;
+    .highLight {
+      color: #85b9e6;
+    }
+  }
+}

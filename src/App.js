@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Top from './component/All/index';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import NormalLoginForm from './login/index.js';
+// import NormalLoginForm from './login/index.js';
 
 export default class App extends Component {
   render() {
@@ -9,8 +9,8 @@ export default class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route path="/App" component={Top}></Route>
-          <Route path="/login" component={NormalLoginForm}></Route>
-          <Redirect to="/login" />
+          {/* <Route path="/login" component={NormalLoginForm}></Route> */}
+          <Redirect to="/App" />
         </Switch>
       </BrowserRouter>
     );

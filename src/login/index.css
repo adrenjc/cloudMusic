@@ -1,23 +1,38 @@
 .login {
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 100%; */
-  height: calc(100vh);
+  /* top: 0; */
+  height: calc(100vh - 110px);
+  width: 100vw;
+
+  /* right: 50%; */
+  z-index: 999;
 }
 
 .login-frame {
   width: 400px;
   height: 500px;
-  background-color: #000;
+  background-color: #fff;
   border-radius: 14px;
 }
+.return {
+  font-size: 16px;
+  padding: 12px;
+  margin-left: 8px;
+  width: 50px;
+}
 
+.return:hover {
+  cursor: pointer;
+}
 .user-name {
-  color: #fff;
+  color: black;
   font-size: 30px;
   text-align: center;
-  margin-top: 30px;
+  /* margin-top: 30px; */
+  padding-top: 30px;
   margin-bottom: 30px;
 }
 
@@ -29,4 +44,13 @@
 
 .login-form-button {
   width: 100%;
+  /* background-color: red !important;
+  border-color: red !important;
+  border-radius: 5px !important; */
+}
+
+.input .ant-btn-primary {
+  background-color: red;
+  border-color: red;
+  border-radius: 5px;
 }
