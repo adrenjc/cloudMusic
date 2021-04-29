@@ -75,8 +75,9 @@ export const logOut = () => {
   return ajax(URL + '/logout', {}, 'GET');
 };
 
-export const search = () => {
-  return ajax(URL + '/cloudsearch', {}, 'GET');
+//搜索音乐
+export const inSearch = (keywords) => {
+  return ajax(URL + '/cloudsearch', { keywords }, 'GET');
 };
 
 //搜索排行榜

@@ -6,10 +6,11 @@ import Side from '../Sidenav/index';
 import Home from '../Home/index';
 import Audio from '../Audio/index';
 import PlayList from '../Playlist/index';
+import Search from '../Search/index';
 import { Redirect, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Search from '../Search/index';
+import SearchHot from '../SearchHot/index';
 import { searchInput } from '../../redux/action/SearchInput_action';
 import Suggest from '../Suggest/index';
 import { getSearchSuggest } from '../../api/index';
@@ -72,7 +73,8 @@ const All = (props) => {
   }, 300);
   const search2 = (e) => {
     if (e.keyCode === 13) {
-      console.log('222');
+      props.history.replace(`/App/search/${e.target.value}`);
+      setSuggest(false);
     }
   };
 
@@ -136,7 +138,7 @@ const All = (props) => {
               placeholder="&#xe623;&nbsp;搜索"
               className="top-input iconfont"
             ></input>
-            {focus ? <Search></Search> : null}
+            {focus ? <SearchHot></SearchHot> : null}
             {suggest ? (
               <Suggest
                 suggestValue={suggestValue}
@@ -149,6 +151,8 @@ const All = (props) => {
         <Side></Side>
         <Route path="/App/home" component={Home}></Route>
         <Route path="/App/playlist/:id" component={PlayList}></Route>
+        {/* <Search></Search> */}
+        <Route path="/App/search/:value" component={Search}></Route>
         <Redirect to="/App/home"></Redirect>
         <Audio></Audio>
       </div>

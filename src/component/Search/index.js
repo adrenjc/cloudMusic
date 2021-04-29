@@ -1,93 +1,107 @@
-import './index.scss';
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getSearchHot } from '../../api/index';
-import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import './index.scss';
+import { inSearch } from '../../api/index';
+import moment from 'moment';
 
-const Search = () => {
+const Search = (props) => {
   const [loding, setLoding] = useState(false);
-  const [data, setData] = useState(null);
-  const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
+  const [count, setCount] = useState(); //设置歌曲数量
+  const [getData, setGetData] = useState(null);
+  const {
+    match: {
+      params: { value },
+    },
+  } = props;
 
+  const getHighlight = (data) => {
+    let reg = new RegExp(value, 'ig');
+    let newData2 = data.match(reg);
+    let newData = data.replace(
+      reg,
+      `<span class='search-highLight'>${newData2}</span>`
+    );
+    return newData;
+  };
   useEffect(() => {
     const featchData = async () => {
       setLoding(true);
-
-      const value = await getSearchHot();
+      const data = await inSearch(value);
       const {
-        data: { data = {} },
-      } = value;
-      setData(data);
+        data: { result },
+      } = data;
+      console.log(result.songs);
+      setCount(result.songCount);
+      setGetData(result.songs);
       setLoding(false);
     };
     featchData();
-  }, []);
+    return () => {};
+  }, [value]);
 
   return (
     <div>
-      <div className="search-input">
-        <div className="search-history">
-          <div className="search-history-title">搜索历史</div>
-          <div className="search-history-data"></div>
+      <div className="search-return-box">
+        <div className="search-return-data">
+          {value}
+          <span className="search-return-value">找到{count}首</span>
         </div>
-        <div className="search-hot">
-          <div className="search-hot-title">热搜榜</div>
-          {loding ? (
-            <div>
-              <Spin indicator={antIcon} />
-            </div>
-          ) : (
-            <div>
-              {data !== null
-                ? data.map((items, index) => {
-                    return (
-                      <div className="search-hot-data" key={index}>
-                        <div
-                          className={
-                            index + 1 <= 3
-                              ? 'search-hot-index hot'
-                              : 'search-hot-index '
-                          }
-                        >
-                          {index + 1}
-                        </div>
-                        <div className="search-hot-name">
-                          <div className="search-hot-songname">
-                            {items.searchWord}
-                          </div>
+        <div className="search-return-table">
+          <div className="search-return-null"></div>
+          <div className="search-return-title">音乐标题</div>
+          <div className="search-return-artist">歌手</div>
+          <div className="search-return-albums">专辑</div>
+          <div className="search-return-time">时长</div>
+        </div>
 
-                          {items.iconUrl ? (
-                            <img
-                              className="search-hot-img"
-                              src={items.iconUrl}
-                              alt=""
-                            ></img>
-                          ) : null}
-                          <span className="search-ishot">{items.score}</span>
-                          <div className="search-hot-details">
-                            {items.content}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })
-                : null}
-            </div>
-          )}
+        <div className="search-return">
+          {getData
+            ? getData.map((items, index) => {
+                return (
+                  <div
+                    className={
+                      index % 2 === 0
+                        ? 'search-return-deatils'
+                        : 'search-return-deatils search-active'
+                    }
+                    key={index}
+                  >
+                    <div className="search-deatils-index">
+                      {index + 1 < 10 ? '0' + (index + 1) : index + 1}
+                    </div>
+                    <div
+                      className="search-deatils-name"
+                      dangerouslySetInnerHTML={{
+                        __html: getHighlight(items.name),
+                      }}
+                    ></div>
+                    <div
+                      className="search-deatils-artist"
+                      dangerouslySetInnerHTML={{
+                        __html: getHighlight(items.ar[0].name),
+                      }}
+                    ></div>
+                    <div
+                      className="search-deatils-albums"
+                      dangerouslySetInnerHTML={{
+                        __html: getHighlight(items.al.name),
+                      }}
+                    ></div>
+                    <div className="search-deatils-time">
+                      {moment(items.dt).format('mm:ss')}
+                    </div>
+                  </div>
+                );
+              })
+            : null}
 
-          {/* <div className="search-hot-data">
-            <div className="search-hot-index">1</div>
-            <div className="search-hot-name">
-              <div className="search-hot-songname">周杰伦</div>
-              <img
-                className="search-hot-img"
-                src="https://p1.music.126.net/2zQ0d1ThZCX5Jtkvks9aOQ==/109951163968000522.png"
-                alt=""
-              ></img>
-              <span className="search-ishot">12415123</span>
-              <div className="search-hot-details">阿巴巴爸爸</div>
-            </div>
+          {/* <div className="search-return-deatils">
+            <div className="search-deatils-index">1</div>
+            <div className="search-deatils-name">海阔天空</div>
+            <div className="search-deatils-artist">Beyond</div>
+            <div className="search-deatils-albums">海阔天空</div>
+            <div className="search-deatils-time">02:12</div>
           </div> */}
         </div>
       </div>

@@ -53,9 +53,9 @@
 }
 
 .time {
-  position: relative;
-  bottom: 14px;
-  left: 0;
+  position: absolute;
+  bottom: 60px;
+  /* top: ; */
   z-index: 9999;
   -webkit-appearance: none; /*清除系统默认样式*/
   width: 100vw;
