@@ -224,6 +224,7 @@ class PlayList extends Component {
 
       const audio = document.getElementById('audio');
       audio.play();
+
       PubSub.publish('songID', items);
       PubSub.publish('songAllId', info);
       const { getList } = this.props;

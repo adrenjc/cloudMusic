@@ -32,6 +32,8 @@ const All = (props) => {
   const app = useRef();
   const input = useRef();
   //防抖函数
+
+  //监听鼠标是否在搜索框内点击 如果不实在搜索框点击则关闭搜索框
   useEffect(() => {
     document.addEventListener('mousedown', (e) => handleClick(e), false);
 
@@ -74,6 +76,7 @@ const All = (props) => {
   const search2 = (e) => {
     if (e.keyCode === 13) {
       props.history.replace(`/App/search/${e.target.value}`);
+      setFocus(false);
       setSuggest(false);
     }
   };
@@ -105,6 +108,7 @@ const All = (props) => {
       e.target.value = '';
     }
     setFocus(true);
+    // setSuggest
     // const { searchInput } = props;
     // searchInput(true);
   };

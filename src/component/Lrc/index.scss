@@ -2,12 +2,20 @@
   position: absolute;
   top: 50px;
   height: calc(100% - 109px);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(calc(100% - 109px));
+  transition: 0.3s;
   width: 100vw;
   overflow: auto;
   background-color: #2b2b2b;
-  //   display: none;
   z-index: 20;
   //   display: flex;
+}
+.lrc-show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .lrc-box {

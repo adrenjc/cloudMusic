@@ -69,9 +69,17 @@ class Index extends Component {
     const date = new Date().getTime();
 
     const statusResult = await loginStatus(date);
+    console.log(statusResult);
     const { data: { data: { profile = {} } = {} } = {} } = statusResult;
-    const { nickname: name, userId, avatarUrl } = profile;
-    this.setState({ name, userId, avatarUrl });
+    if (!profile) {
+      logOut();
+      storageUtils.removeUser();
+      PubSub.publish('logOut', false);
+      this.setState({ loginOut: false });
+    } else if (profile) {
+      const { nickname: name, userId, avatarUrl } = profile;
+      this.setState({ name, userId, avatarUrl });
+    }
   };
 
   getPlayListInfo = async () => {

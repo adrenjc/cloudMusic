@@ -12,6 +12,9 @@ const Lrc = (props) => {
   const [lrc, setLrc] = useState(null); //保存分离出来的个歌词
   const [currentLrc, setCurrentLrc] = useState(0); //当前歌词的的索引值
   const [isPureMusic, setIsPureMusic] = useState(false); //是否是纯音乐
+  const [timeState, setTimeState] = useState(false);
+  const [timeState1, setTimeState1] = useState(false);
+
   // eslint-disable-next-line no-unused-vars
   const [scrollState, setScrollState] = useState(false);
   const scrollstate = useRef(false);
@@ -79,12 +82,12 @@ const Lrc = (props) => {
           setCurrentLrc(LRC.current.indexOf(LRC.current[i]));
 
           if (scrollState === false) {
-            scrollstate.current = true;
-            lrcIndex.current.scrollIntoView({
-              behavior: 'smooth',
-              block: 'center',
-            });
-            scrollstate.current = false;
+            if (timeState) {
+              lrcIndex.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+              });
+            }
           }
           LRC.current[i].state = true;
         }
@@ -152,15 +155,29 @@ const Lrc = (props) => {
     console.log(222);
   }, 50);
 
+  useEffect(() => {
+    if (props.state) {
+      setTimeState(true);
+      setTimeout(() => {
+        setTimeState1(true);
+      }, 50);
+    } else if (props.state === false) {
+      setTimeState1(false);
+      setTimeout(() => {
+        setTimeState(false);
+      }, 350);
+    }
+  }, [props.state]);
+
   // const scroll = (e) => {
   //   console.log(this, e);
 
   return (
-    <div>
+    <div style={timeState ? { display: 'block' } : { display: 'none' }}>
       {/*歌词区域 */}
       <div
-        className="lrc"
-        style={props.state ? { display: 'block' } : { display: 'none' }}
+        className={timeState1 ? 'lrc lrc-show' : 'lrc'}
+        // style={timeState1 ? { visibility: 'block' } : { display: 'none' }}
       >
         {props.data !== null ? (
           <div className="lrc-box">

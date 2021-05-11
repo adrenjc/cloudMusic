@@ -25,7 +25,9 @@ let token2; //获取被双击的歌曲所在歌单的所有歌曲ID
 class Audio extends Component {
   componentDidMount() {
     this.init();
+    document.addEventListener('mousedown', (e) => this.handleClick(e), false);
   }
+  app = createRef();
 
   init = () => {
     //（待修改）
@@ -51,9 +53,6 @@ class Audio extends Component {
           this.state.allSongId[this.state.audioIndex]
         );
       });
-
-      // const { allSongId, audioIndex } = this.state;
-      // console.log(allSongId[audioIndex]);
     });
   };
   //取消订阅 防止内存泄漏
@@ -72,8 +71,18 @@ class Audio extends Component {
     details: {}, //音乐详情
     allSongId: '', //对列歌单所有ID
     audioIndex: '', //当前播放歌曲在队列歌单ID里的索引值
-    iconPlaylist: false, //是否选中队列歌单
+    // iconPlaylist: false, //是否选中队列歌单
     lrc: false, //控制歌词页面开关
+  };
+
+  handleClick = (e) => {
+    const { setListFalse } = this.props;
+    if (this.app.current !== null) {
+      // console.log(e.target.contains(e.target));
+      if (this.app.current.contains(e.target) === false) {
+        setListFalse(false);
+      }
+    }
   };
 
   //格式化歌曲时长
@@ -191,21 +200,6 @@ class Audio extends Component {
     }
   };
 
-  //控制播放列表是否显示
-  setIcon = async () => {
-    const { setListFalse, setListTrue } = this.props;
-    const { iconPlaylist } = this.state;
-    if (iconPlaylist === false) {
-      this.setState({ iconPlaylist: true }, () => {
-        setListTrue(true);
-      });
-    } else {
-      this.setState({ iconPlaylist: false }, () => {
-        setListFalse(false);
-      });
-    }
-  };
-
   //上一首
   previous = async () => {
     const { audio } = this.props;
@@ -251,6 +245,28 @@ class Audio extends Component {
           this.audios();
         });
       }
+    }
+  };
+
+  //控制播放列表是否显示
+  setIcon = async () => {
+    // const { setListFalse, setListTrue } = this.props;
+    // const { iconPlaylist } = this.state;
+    // if (iconPlaylist === false) {
+    //   this.setState({ iconPlaylist: true }, () => {
+    //     setListTrue(true);
+    //   });
+    // } else {
+    //   this.setState({ iconPlaylist: false }, () => {
+    //     setListFalse(false);
+    //   });
+    // }
+    const { sideList } = this.props;
+    const { setListFalse, setListTrue } = this.props;
+    if (sideList) {
+      setListFalse(false);
+    } else if (!sideList) {
+      setListTrue(true);
     }
   };
 
@@ -364,16 +380,17 @@ class Audio extends Component {
               onClick={this.next}
             />
           </div>
-          <div className="control-area">
+          <div className="control-area" ref={this.app}>
             <div>
               <UnorderedListOutlined
                 className={
-                  this.state.iconPlaylist
+                  this.props.sideList
                     ? 'icon-playlist-true'
                     : 'icon-playlist-false'
                 }
                 onClick={this.setIcon}
               />
+              <SideList></SideList>
             </div>
 
             <div>
@@ -397,7 +414,7 @@ class Audio extends Component {
             />
           </div>
         </div>
-        <SideList></SideList>
+
         {/* {this.state.lrc ? <Lrc></Lrc> : null} */}
         <Lrc state={lrc} data={audioDetails.data} isPlay={isPlay}></Lrc>
         {/* {console.log(this.state.lrc)} */}
@@ -411,6 +428,7 @@ export default connect(
     return {
       audio: state.audio,
       audioDetails: state.audioDetails,
+      sideList: state.sideList.data,
     };
   },
   {
