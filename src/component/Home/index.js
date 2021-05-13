@@ -34,12 +34,15 @@ class Home extends Component {
   getRecommendPlayList = async () => {
     await this.setState({ isLoding: true });
     const { loginstate } = this.props;
+
     if (loginstate) {
-      const result = await getUserRecommendPlaylist();
+      const date = new Date().getTime();
+      const result = await getUserRecommendPlaylist(date);
       const value = result.data.recommend.slice(0, 10);
       this.setState({ arr: value });
     } else {
-      const result = await recommendPlayList();
+      const date = new Date().getTime();
+      const result = await recommendPlayList(date);
       const value = result.data.result.slice(0, 10);
       this.setState({ arr: value });
     }

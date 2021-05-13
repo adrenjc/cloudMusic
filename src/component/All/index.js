@@ -14,6 +14,9 @@ import SearchHot from '../SearchHot/index';
 import { searchInput } from '../../redux/action/SearchInput_action';
 import Suggest from '../Suggest/index';
 import { getSearchSuggest } from '../../api/index';
+import PubSub from 'pubsub-js';
+import storageUtils from '../../utils/storageUtils';
+import memoryUtils from '../../utils/memoryUtils';
 // import storageUtils from '../../utils/storageUtils';
 
 // export default class All extends Component {
@@ -28,16 +31,27 @@ const All = (props) => {
   const [suggest, setSuggest] = useState(false);
   const [suggestValue, setSuggestValue] = useState();
   const [suggestData, setSuggestData] = useState();
+  const [arrHistory, setArrHistory] = useState(memoryUtils.searchHistory);
   // const [focusLoding, setFocusLoding] = useState(false); // 请求热度高的歌曲
   const app = useRef();
   const input = useRef();
-  //防抖函数
+  const history = useRef();
 
+  let token;
+  let token2;
   //监听鼠标是否在搜索框内点击 如果不实在搜索框点击则关闭搜索框
   useEffect(() => {
+    token = PubSub.subscribe('searchHot', (_, data) => {
+      setFocus(data);
+    });
+    token2 = PubSub.subscribe('suggest', (_, data) => {
+      setSuggest(data);
+    });
     document.addEventListener('mousedown', (e) => handleClick(e), false);
 
     return () => {
+      PubSub.unsubscribe(token);
+      PubSub.unsubscribe(token2);
       document.removeEventListener('mousedown', (e) => handleClick(e), false);
     };
   }, []);
@@ -73,14 +87,22 @@ const All = (props) => {
       setSuggest(false);
     }
   }, 300);
+
+  //按下回车键后跳转到搜索
   const search2 = (e) => {
     if (e.keyCode === 13) {
       props.history.replace(`/App/search/${e.target.value}`);
       setFocus(false);
       setSuggest(false);
+      setArrHistory([...arrHistory, e.target.value]);
+      history.current = [...arrHistory, e.target.value];
+
+      storageUtils.saveSearch(history.current);
+      memoryUtils.searchHistory = history.current;
+      console.log(storageUtils.getSearch());
     }
   };
-
+  //防抖
   function useDebounce(fn, delay) {
     const { current } = useRef({ fn, timer: null });
     useEffect(

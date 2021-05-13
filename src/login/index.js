@@ -56,6 +56,7 @@ export default class NormalLoginForm extends Component {
       memoryUtils.user = result;
       storageUtils.saveUser(result);
       this.log(result);
+      console.log(result);
       //     // // console.log(result);
       //     // // this.getUserMemory();
 

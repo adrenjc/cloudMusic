@@ -21,7 +21,11 @@
     font-weight: 800;
     margin: 8px;
   }
+  .suggest-data-songname:hover {
+    background-color: #333333;
+  }
   .suggest-data-songname {
+    cursor: pointer;
     height: 30px;
     line-height: 30px;
     margin-left: 25px;

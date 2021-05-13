@@ -4,8 +4,11 @@ import { connect } from 'react-redux';
 import { getSearchHot } from '../../api/index';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { withRouter } from 'react-router-dom';
+import Pubsub from 'pubsub-js';
+import memoryUtils from '../../utils/memoryUtils';
 
-const SearchHot = () => {
+const SearchHot = (props) => {
   const [loding, setLoding] = useState(false);
   const [data, setData] = useState(null);
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
@@ -24,13 +27,29 @@ const SearchHot = () => {
     featchData();
   }, []);
 
+  //跳转到搜索
+  const click = (items) => {
+    props.history.replace(`/App/search/${items.searchWord}`);
+    Pubsub.publish('searchHot', false);
+  };
+
   return (
     <div>
       <div className="search-input">
-        <div className="search-history">
-          <div className="search-history-title">搜索历史</div>
-          <div className="search-history-data"></div>
-        </div>
+        {memoryUtils.searchHistory === [] ? null : (
+          <div className="search-history">
+            <div className="search-history-title">搜索历史</div>
+            {/* <div className="search-history-data">123</div> */}
+            {memoryUtils.searchHistory.map((items, index) => {
+              return (
+                <div className="search-history-data" key={index}>
+                  {items}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         <div className="search-hot">
           <div className="search-hot-title">热搜榜</div>
           {loding ? (
@@ -42,7 +61,13 @@ const SearchHot = () => {
               {data !== null
                 ? data.map((items, index) => {
                     return (
-                      <div className="search-hot-data" key={index}>
+                      <div
+                        className="search-hot-data"
+                        key={index}
+                        onClick={() => {
+                          click(items);
+                        }}
+                      >
                         <div
                           className={
                             index + 1 <= 3
@@ -95,4 +120,4 @@ const SearchHot = () => {
   );
 };
 
-export default connect()(SearchHot);
+export default withRouter(connect()(SearchHot));

@@ -47,6 +47,8 @@ const SideList = (props) => {
   //     }
   //   }
   // };
+
+  //让组件先渲染出来 然后再执行动画效果
   useEffect(() => {
     if (props.sideList) {
       setTimeState2(true);
@@ -56,7 +58,7 @@ const SideList = (props) => {
     } else if (props.sideList === false) {
       setTimeout(() => {
         setTimeState2(false);
-      }, 350);
+      }, 350); //350是动画时间设置了300毫毛 等到动画结束再隐藏组件
       setTimeState3(false);
     }
   }, [props.sideList]);

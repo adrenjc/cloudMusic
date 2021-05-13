@@ -10,14 +10,26 @@
   overflow: auto;
   .search-history {
     width: 100%;
-    height: 130px;
-    max-height: 130px;
+    max-height: 155px;
+    overflow: hidden;
     /* background-color: red; */
     .search-history-title {
       color: #888888;
       font-size: 16px;
       margin-left: 14px;
       margin-top: 8px;
+    }
+    .search-history-data {
+      display: inline-block;
+      cursor: pointer;
+      padding: 1px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 8px;
+      position: relative;
+      border: 1px solid #545454;
+      border-radius: 15px;
+      color: #b9b9b9;
     }
   }
 }

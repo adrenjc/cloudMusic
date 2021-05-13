@@ -22,6 +22,7 @@ import { AutoSizer, List } from 'react-virtualized';
 class PlayList extends Component {
   componentDidMount() {
     this.init();
+    // this.app = createRef();
   }
 
   componentDidUpdate(props) {
@@ -57,6 +58,8 @@ class PlayList extends Component {
     initArr: [],
     //搜索状态
     searc: false,
+    //用于更新歌单红字
+    songname: null,
   };
 
   //第一次组件挂载加载歌单
@@ -229,6 +232,7 @@ class PlayList extends Component {
       PubSub.publish('songAllId', info);
       const { getList } = this.props;
       getList(song);
+      // this.app.current.scrollTo = 1;
     }
   };
 

@@ -26,13 +26,13 @@ export function getPlaylist(uid) {
 }
 
 //首页推荐歌单
-export function recommendPlayList() {
-  return ajax(URL + '/personalized', {}, 'GET');
+export function recommendPlayList(timestamp) {
+  return ajax(URL + '/personalized', { timestamp }, 'GET');
 }
 
 //登陆后获取推荐歌单
-export const getUserRecommendPlaylist = () => {
-  return ajax(URL + '/recommend/resource', {}, 'GET');
+export const getUserRecommendPlaylist = (timestamp) => {
+  return ajax(URL + '/recommend/resource', { timestamp }, 'GET');
 };
 
 //获取歌曲详情

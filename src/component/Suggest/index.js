@@ -1,6 +1,10 @@
 import './index.scss';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import PubSub from 'pubsub-js';
+import { message } from 'antd';
+
 // import { SearchOutlined } from '@ant-design/icons';
 // import { get } from 'store';
 
@@ -54,6 +58,15 @@ const Suggest = (props) => {
     );
     return newData;
   };
+
+  const click = (items) => {
+    props.history.replace(`/App/search/${items.name}`);
+    PubSub.publish('suggest', false);
+  };
+
+  const click2 = () => {
+    message.error('还未开发');
+  };
   return (
     <div>
       <div className="suggest-input">
@@ -70,6 +83,9 @@ const Suggest = (props) => {
                 <div
                   key={index}
                   className="suggest-data-songname"
+                  onClick={() => {
+                    click(items);
+                  }}
                   dangerouslySetInnerHTML={{
                     __html:
                       getHighlight(items.name) +
@@ -87,6 +103,9 @@ const Suggest = (props) => {
             {artists.map((items, index) => {
               return (
                 <div
+                  onClick={() => {
+                    click2();
+                  }}
                   key={index}
                   className="suggest-data-songname"
                   dangerouslySetInnerHTML={{
@@ -103,6 +122,9 @@ const Suggest = (props) => {
             {albums.map((items, index) => {
               return (
                 <div
+                  onClick={() => {
+                    click2();
+                  }}
                   key={index}
                   className="suggest-data-songname"
                   dangerouslySetInnerHTML={{
@@ -122,6 +144,9 @@ const Suggest = (props) => {
             {playlists.map((items, index) => {
               return (
                 <div
+                  onClick={() => {
+                    click2();
+                  }}
                   key={index}
                   className="suggest-data-songname"
                   dangerouslySetInnerHTML={{
@@ -137,4 +162,4 @@ const Suggest = (props) => {
   );
 };
 
-export default connect()(Suggest);
+export default withRouter(connect()(Suggest));
