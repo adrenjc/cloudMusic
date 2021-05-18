@@ -17,9 +17,8 @@ const result = async () => {
     },
   } = value;
   if (!profile) {
-    console.log('111');
     const value = storageUtils.removeUser();
-    const value2 = storageUtils.saveSearch([]);
+    const value2 = storageUtils.removeSearch();
     memoryUtils.user = value;
     memoryUtils.searchHistory = value2;
   }

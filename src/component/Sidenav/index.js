@@ -114,7 +114,8 @@ class Index extends Component {
     await logOut();
     message.success('登出');
     storageUtils.removeUser();
-    storageUtils.saveSearch([]);
+    storageUtils.removeSearch();
+    memoryUtils.searchHistory = storageUtils.getSearch();
 
     PubSub.publish('logOut', false);
     this.setState({ loginOut: false });

@@ -38,11 +38,13 @@ class Home extends Component {
     if (loginstate) {
       const date = new Date().getTime();
       const result = await getUserRecommendPlaylist(date);
+
       const value = result.data.recommend.slice(0, 10);
       this.setState({ arr: value });
     } else {
       const date = new Date().getTime();
       const result = await recommendPlayList(date);
+
       const value = result.data.result.slice(0, 10);
       this.setState({ arr: value });
     }

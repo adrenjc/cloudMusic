@@ -31,7 +31,9 @@ const All = (props) => {
   const [suggest, setSuggest] = useState(false);
   const [suggestValue, setSuggestValue] = useState();
   const [suggestData, setSuggestData] = useState();
-  const [arrHistory, setArrHistory] = useState(memoryUtils.searchHistory);
+  const [arrHistory, setArrHistory] = useState(
+    !memoryUtils.searchHistory ? [] : memoryUtils.searchHistory
+  );
   // const [focusLoding, setFocusLoding] = useState(false); // 请求热度高的歌曲
   const app = useRef();
   const input = useRef();
@@ -99,7 +101,6 @@ const All = (props) => {
 
       storageUtils.saveSearch(history.current);
       memoryUtils.searchHistory = history.current;
-      console.log(storageUtils.getSearch());
     }
   };
   //防抖

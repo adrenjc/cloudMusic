@@ -78,6 +78,7 @@ const Search = (props) => {
       const audio = document.getElementById('audio');
       audio.play();
       PubSub.publish('songID', items);
+      console.log(info);
       PubSub.publish('songAllId', info);
       const { getList } = props;
       getList(song);

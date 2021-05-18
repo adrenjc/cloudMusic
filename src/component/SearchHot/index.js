@@ -36,10 +36,9 @@ const SearchHot = (props) => {
   return (
     <div>
       <div className="search-input">
-        {memoryUtils.searchHistory === [] ? null : (
+        {!memoryUtils.searchHistory ? null : (
           <div className="search-history">
             <div className="search-history-title">搜索历史</div>
-            {/* <div className="search-history-data">123</div> */}
             {memoryUtils.searchHistory.map((items, index) => {
               return (
                 <div className="search-history-data" key={index}>
